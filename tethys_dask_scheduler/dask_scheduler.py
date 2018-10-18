@@ -10,7 +10,6 @@ import tempfile
 import click
 
 from tornado.ioloop import IOLoop
-from tornado.httpclient import AsyncHTTPClient
 
 from distributed import Scheduler
 from distributed.security import Security
@@ -20,31 +19,10 @@ from distributed.cli.utils import (check_python_3, install_signal_handlers,
 from distributed.preloading import preload_modules, validate_preload_argv
 from distributed.proctitle import (enable_proctitle_on_children,
                                    enable_proctitle_on_current)
-from distributed.diagnostics.plugin import SchedulerPlugin
+
+from tethys_dask_scheduler.tethys_scheduler_plugin import TethysSchedulerPlugin
 
 logger = logging.getLogger('distributed.scheduler')
-
-
-class SchedulerPlugin(SchedulerPlugin):
-    def __init__(self, endpoint='http://localhost:8000', scheduler=None):
-        self.endpoint = endpoint
-        self.scheduler = scheduler
-
-    def transition(self, key, start, finish, *args, **kwargs):
-        # Construct URL
-        # get the client from scheduler
-        tracked_key = self.scheduler.get_metadata(keys=[key], default=False)
-
-        if tracked_key:
-            combined_status = '{}-{}'.format(start, finish)
-            url = self.endpoint + '/update-dask-job-status/' + key + '/?status=' + combined_status
-
-            http_client = AsyncHTTPClient()
-
-            # Prevent deadlock
-            if start != 'released':
-                http_client.fetch(url, method='GET')
-
 
 pem_file_option_type = click.Path(exists=True, resolve_path=True)
 
@@ -147,7 +125,7 @@ def main(host, port, bokeh_port, show, _bokeh, bokeh_whitelist, bokeh_prefix, us
                           security=sec)
 
     if tethys_host:
-        c = SchedulerPlugin(endpoint=tethys_host, scheduler=scheduler)
+        c = TethysSchedulerPlugin(endpoint=tethys_host, scheduler=scheduler)
         scheduler.add_plugin(c)
 
     scheduler.start(addr)
