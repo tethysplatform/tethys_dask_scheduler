@@ -1,4 +1,4 @@
 #!/bin/bash
-coverage run setup.py test
+coverage run --rcfile coverage.cfg setup.py test
 coverage report -m
 flake8
