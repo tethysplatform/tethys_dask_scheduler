@@ -19,17 +19,18 @@ class SchedulerPluginTest(unittest.TestCase):
         pass
 
     def test_init(self):
-
-        tds_plugin = TethysSchedulerPlugin(endpoint='http://localhost:8080')
+        mock_scheduler = mock.MagicMock()
+        tds_plugin = TethysSchedulerPlugin(tethys_endpoint='http://localhost:8080', scheduler=mock_scheduler)
 
         # Check result
-        self.assertEqual('http://localhost:8080', tds_plugin.endpoint)
+        self.assertEqual('http://localhost:8080', tds_plugin.tethys_endpoint)
+        self.assertEqual(mock_scheduler, tds_plugin.scheduler)
 
     @mock.patch('tethys_dask_scheduler.tethys_scheduler_plugin.AsyncHTTPClient')
     def test_transition(self, mock_async):
         endpoint = 'http://localhost:8080'
         mock_scheduler = mock.MagicMock()
-        tds_plugin = TethysSchedulerPlugin(endpoint=endpoint, scheduler=mock_scheduler)
+        tds_plugin = TethysSchedulerPlugin(tethys_endpoint=endpoint, scheduler=mock_scheduler)
         mock_scheduler.get_metadata.return_value = True
         mock_http_client = mock.MagicMock()
         mock_async.return_value = mock_http_client

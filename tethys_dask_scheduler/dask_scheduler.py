@@ -64,7 +64,7 @@ pem_file_option_type = click.Path(exists=True, resolve_path=True)
                    'like "foo.bar" or "/path/to/foo.py".')
 @click.argument('preload_argv', nargs=-1,
                 type=click.UNPROCESSED, callback=validate_preload_argv)
-@click.option('--tethys-host', type=str, default='', help='Tethys Host')
+@click.option('--tethys-host', type=str, default='http://localhost:8000', help='Tethys Host')
 def main(host, port, bokeh_port, show, _bokeh, bokeh_whitelist, bokeh_prefix, use_xheaders, pid_file,
          scheduler_file, interface, local_directory, preload, preload_argv, tls_ca_file, tls_cert,
          tls_key, tethys_host):
@@ -125,7 +125,11 @@ def main(host, port, bokeh_port, show, _bokeh, bokeh_whitelist, bokeh_prefix, us
                           security=sec)
 
     if tethys_host:
-        c = TethysSchedulerPlugin(endpoint=tethys_host, scheduler=scheduler)
+        if not tethys_host.startswith('http'):
+            tethys_host = 'http://' + tethys_host
+
+        print(tethys_host)
+        c = TethysSchedulerPlugin(tethys_endpoint=tethys_host, scheduler=scheduler)
         scheduler.add_plugin(c)
 
     scheduler.start(addr)
