@@ -1,8 +1,4 @@
 language: python
-python:
-  - 3.5
-  - 3.6
-  - 3.7
 
 matrix:
   include:
@@ -11,13 +7,25 @@ matrix:
       # if: NOT tag IS present
       script:
         - echo "testing"
+      python:
+        - 3.5
+        - 3.6
+        - 3.7
     # Pypi deploy if tagged
     - stage: pypi_deploy
       # if: tag =~ ^\d+\.\d+\.\d+$
       script:
-      - echo "pypi deploy"
+        - echo "pypi deploy"
+      python:
+        - 3.5
+        - 3.6
+        - 3.7
     # Anaconda deploy if tagged and deployed to pypi
     - stage: anaconda_deploy
       # if: tag =~ ^\d+\.\d+\.\d+$
       script:
-      - echo "anaconda deploy"
+        - echo "anaconda deploy"
+      python:
+        - 3.5
+        - 3.6
+        - 3.7
