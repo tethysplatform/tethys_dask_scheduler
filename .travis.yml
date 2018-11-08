@@ -13,6 +13,10 @@ stages:
     if: tag =~ ^\d+\.\d+\.\d+$
 
 
+install:
+    - pip install coverage
+
+
 jobs:
   include:
     # Python 3.5
