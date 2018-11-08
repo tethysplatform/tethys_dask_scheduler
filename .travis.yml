@@ -14,7 +14,7 @@ stages:
 
 
 install:
-    - pip install coverage
+    - pip install coverage flake8
 
 
 jobs:
@@ -23,6 +23,7 @@ jobs:
     - stage: test
       script:
         - python --version
+        - python setup.py install
         - coverage run --rcfile coverage.cfg setup.py test
         - coverage report -m
         - flake8
@@ -42,6 +43,7 @@ jobs:
     - stage: test
       script:
         - python --version
+        - python setup.py install
         - coverage run --rcfile coverage.cfg setup.py test
         - coverage report -m
         - flake8
@@ -61,6 +63,7 @@ jobs:
     - stage: test
       script:
         - python --version
+        - python setup.py install
         - coverage run --rcfile coverage.cfg setup.py test
         - coverage report -m
         - flake8
