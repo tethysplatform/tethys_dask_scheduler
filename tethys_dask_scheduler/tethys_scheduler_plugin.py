@@ -38,3 +38,5 @@ class TethysSchedulerPlugin(SchedulerPlugin):
                 # Submit update request to Tethys Asynchronously
                 http_client = AsyncHTTPClient()
                 http_client.fetch(url, method='GET')
+
+
