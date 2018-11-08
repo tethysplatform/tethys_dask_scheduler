@@ -19,6 +19,9 @@ jobs:
     - stage: test
       script:
         - python --version
+        - coverage run --rcfile coverage.cfg setup.py test
+        - coverage report -m
+        - flake8
       python:
         - 3.5
     - stage: pypi_deploy
@@ -35,6 +38,9 @@ jobs:
     - stage: test
       script:
         - python --version
+        - coverage run --rcfile coverage.cfg setup.py test
+        - coverage report -m
+        - flake8
       python:
         - 3.6
     - stage: pypi_deploy
@@ -51,6 +57,9 @@ jobs:
     - stage: test
       script:
         - python --version
+        - coverage run --rcfile coverage.cfg setup.py test
+        - coverage report -m
+        - flake8
       python:
         - 3.7
       dist: xenial
