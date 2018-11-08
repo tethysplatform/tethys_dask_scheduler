@@ -4,7 +4,6 @@ language: python
 stages:
 # Testing stage for all commits on all branches except tags
   - name: test
-    if: NOT tag IS present
 # Pypi deploy if tagged
   - name: pypi_deploy
     if: tag =~ ^\d+\.\d+\.\d+$
