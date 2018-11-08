@@ -1,9 +1,5 @@
 language: python
 
-python:
-  - 3.5
-  - 3.6
-  - 3.7
 
 stages:
 # Testing stage for all commits on all branches except tags
@@ -17,18 +13,21 @@ stages:
   # if: tag =~ ^\d+\.\d+\.\d+$
 
 
-
 jobs:
   include:
-    # Testing stage for all commits on all branches except tags
+    # Python 3.5
     - stage: test
       script:
         - echo "testing"
-    # Pypi deploy if tagged
+      python:
+        - 3.5
     - stage: pypi_deploy
       script:
         - echo "pypi deploy"
-    # Anaconda deploy if tagged and deployed to pypi
+      python:
+        - 3.5
     - stage: anaconda_deploy
       script:
         - echo "anaconda deploy"
+      python:
+        - 3.5
