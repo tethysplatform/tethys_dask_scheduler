@@ -1,23 +1,22 @@
-language: python
 python:
-  - '3.5'
-  - '3.6'
-  - '3.7'
+  - 3.5
+  - 3.6
+  - 3.7
 
-jobs:
+matrix:
   include:
     # Testing stage for all commits on all branches except tags
     - stage: test
-      if: NOT tag IS present
+      # if: NOT tag IS present
       script:
         - echo "testing"
     # Pypi deploy if tagged
     - stage: pypi_deploy
-      if: tag =~ ^\d+\.\d+\.\d+$
+      # if: tag =~ ^\d+\.\d+\.\d+$
       script:
       - echo "pypi deploy"
     # Anaconda deploy if tagged and deployed to pypi
     - stage: anaconda_deploy
-      if: tag =~ ^\d+\.\d+\.\d+$
+      # if: tag =~ ^\d+\.\d+\.\d+$
       script:
       - echo "anaconda deploy"
