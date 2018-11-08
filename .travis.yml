@@ -21,13 +21,16 @@ jobs:
         - echo "testing"
       python:
         - 3.5
+        - 3.6
     - stage: pypi_deploy
       script:
         - echo "pypi deploy"
       python:
         - 3.5
+        - 3.6
     - stage: anaconda_deploy
       script:
         - echo "anaconda deploy"
       python:
         - 3.5
+        - 3.6
