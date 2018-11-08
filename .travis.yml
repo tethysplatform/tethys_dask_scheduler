@@ -4,13 +4,13 @@ language: python
 stages:
 # Testing stage for all commits on all branches except tags
   - name: test
-  # if: NOT tag IS present
+    if: NOT tag IS present
 # Pypi deploy if tagged
   - name: pypi_deploy
-  # if: tag =~ ^\d+\.\d+\.\d+$
+    if: tag =~ ^\d+\.\d+\.\d+$
 # Anaconda deploy if tagged and deployed to pypi
   - name: anaconda_deploy
-  # if: tag =~ ^\d+\.\d+\.\d+$
+    if: tag =~ ^\d+\.\d+\.\d+$
 
 
 jobs:
@@ -18,7 +18,7 @@ jobs:
     # Python 3.5
     - stage: test
       script:
-        - echo "testing"
+        - python --version
       python:
         - 3.5
     - stage: pypi_deploy
@@ -34,7 +34,7 @@ jobs:
       # Python 3.6
     - stage: test
       script:
-        - echo "testing"
+        - python --version
       python:
         - 3.6
     - stage: pypi_deploy
@@ -47,10 +47,10 @@ jobs:
         - echo "anaconda deploy"
       python:
         - 3.6
-    # Python 3.7
+    # Python 3.7 - Use workaround to get 3.7 to work - https://github.com/travis-ci/travis-ci/issues/9815
     - stage: test
       script:
-        - echo "testing"
+        - python --version
       python:
         - 3.7
       dist: xenial
