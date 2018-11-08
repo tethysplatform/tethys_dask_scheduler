@@ -31,7 +31,7 @@ jobs:
     - stage: pypi_deploy
       script:
         - export SETUP_VERSION=$(python ./setup.py --version)
-        - if [ $SETUP_VERSION == $TRAVIS_BRANCH ]; then echo "Versions match..."; else echo "Version in setup does not match tag" && exit 1; fi
+        - if [ $SETUP_VERSION == $TRAVIS_BRANCH ]; then echo "Versions match..."; else echo "Version in setup does not match tag" && sleep 5 && exit 1; fi
         - python setup.py sdist
         - twine upload -u $PIP_USERNAME -p $PIP_PASSWORD dist/*
       python:
