@@ -67,7 +67,6 @@ jobs:
     # ---------------------------------------------------------------------------------
     # Anaconda Deploy
     - stage: anaconda_deploy
-      env: CI_CONDA_TOKEN=${CI_CONDA_TOKEN_SECRET}
       script:
         - echo "Installing a fresh version of Miniconda."
         - curl -L https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh > ~/miniconda.sh;
@@ -80,7 +79,7 @@ jobs:
         - conda config --set show_channel_urls true
         - conda install --yes --quiet networkx conda-build jinja2 anaconda-client
         # We just want to build all of the recipes.
-        - conda build ./conda_recipe --token ${CI_CONDA_TOKEN}
+        - conda build ./conda_recipe --token ${CI_CONDA_TOKEN_SECRET}
       python:
         - 3.6
 
