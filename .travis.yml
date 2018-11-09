@@ -18,6 +18,8 @@ install:
 
 jobs:
   include:
+    # ---------------------------------------------------------------------------------
+    # Test, done on 3.5, 3.6, and 3.7
     # Python 3.5
     - stage: test
       script:
@@ -28,12 +30,7 @@ jobs:
         - flake8
       python:
         - 3.5
-    - stage: anaconda_deploy
-      script:
-        - echo "anaconda deploy"
-      python:
-        - 3.5
-      # Python 3.6
+    # Python 3.6
     - stage: test
       script:
         - python --version
@@ -41,19 +38,6 @@ jobs:
         - coverage run --rcfile coverage.cfg setup.py test
         - coverage report -m
         - flake8
-      python:
-        - 3.6
-    - stage: pypi_deploy
-      script:
-        - export SETUP_VERSION=$(python ./setup.py --version)
-        - if [ $SETUP_VERSION == $TRAVIS_BRANCH ]; then echo "Versions match..."; else echo "Version in setup does not match tag" && sleep 5 && exit 1; fi
-        - python setup.py sdist
-        - twine upload -u $PIP_USERNAME -p $PIP_PASSWORD dist/*
-      python:
-        - 3.6
-    - stage: anaconda_deploy
-      script:
-        - echo "anaconda deploy"
       python:
         - 3.6
     # Python 3.7 - Use workaround to get 3.7 to work - https://github.com/travis-ci/travis-ci/issues/9815
@@ -68,10 +52,35 @@ jobs:
         - 3.7
       dist: xenial
       sudo: true
-    - stage: anaconda_deploy
+
+    # ---------------------------------------------------------------------------------
+    # Pypi Deploy
+    - stage: pypi_deploy
       script:
-        - echo "anaconda deploy"
+        - export SETUP_VERSION=$(python ./setup.py --version)
+        - if [ $SETUP_VERSION == $TRAVIS_BRANCH ]; then echo "Versions match..."; else echo "Version in setup does not match tag" && sleep 5 && exit 1; fi
+        - python setup.py sdist
+        - twine upload -u $PIP_USERNAME -p $PIP_PASSWORD dist/*
       python:
-        - 3.7
-      dist: xenial
-      sudo: true
+        - 3.6
+
+    # ---------------------------------------------------------------------------------
+    # Anaconda Deploy
+    - stage: anaconda_deploy
+      env: CI_CONDA_TOKEN=${CI_CONDA_TOKEN_SECRET}
+      script:
+        - echo "Installing a fresh version of Miniconda."
+        - curl -L https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh > ~/miniconda.sh;
+        - bash ~/miniconda.sh -b -p ~/miniconda
+        - source ~/miniconda/bin/activate root
+        # Configure conda.
+        - echo "Configuring conda."
+        - conda config --add channels tethysplatform
+        - conda config --append channels conda-forge
+        - conda config --set show_channel_urls true
+        - conda install --yes --quiet networkx conda-build jinja2 anaconda-client
+        # We just want to build all of the recipes.
+        - conda build ./conda_recipe --token ${CI_CONDA_TOKEN}
+      python:
+        - 3.6
+
