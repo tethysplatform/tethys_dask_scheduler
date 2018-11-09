@@ -1,0 +1,39 @@
+{% set name = "tethys_dask_scheduler" %}
+{% set version = "1.0.0" %}
+
+package:
+  name: "{{ name|lower }}"
+  version: "{{ version }}"
+
+build:
+  number: 0
+  entry_points:
+    - tethys-dask-scheduler=tethys_dask_scheduler.dask_scheduler:go
+  script: "{{ PYTHON }} -m pip install tethys_dask_scheduler=={{ version }} --no-deps --ignore-installed -vvv "
+
+requirements:
+  host:
+    - distributed
+    - pip
+    - python
+  run:
+    - distributed
+    - python
+
+test:
+  imports:
+    - tethys_dask_scheduler
+
+about:
+  home: http://tethysplatform.org/
+  license: BSD 2-Clause
+  license_family: BSD
+  license_file: ../LICENSE
+  summary: A Dask scheduler with custom SchedulerPlugins to support integration with Tethys Platform
+  doc_url:
+  dev_url: https://github.com/tethysplatform/tethys_dask_scheduler
+
+extra:
+  recipe-maintainers:
+    - nswain
+    - gagelarsen
