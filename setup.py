@@ -20,7 +20,7 @@ requires = [
     'distributed',
 ]
 
-version = '1.0.1'
+version = '1.0.2'
 
 setup(
     name='tethys_dask_scheduler',
