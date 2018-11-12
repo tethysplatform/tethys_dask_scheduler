@@ -13,7 +13,7 @@ stages:
 
 
 install:
-    - pip install coverage flake8 twine
+    - pip install coverage flake8 twine python-coveralls
 
 
 jobs:
@@ -27,6 +27,7 @@ jobs:
         - python setup.py install
         - coverage run --rcfile coverage.cfg setup.py test
         - coverage report -m
+        - coveralls
         - flake8
       python:
         - 3.5
@@ -37,6 +38,7 @@ jobs:
         - python setup.py install
         - coverage run --rcfile coverage.cfg setup.py test
         - coverage report -m
+        - coveralls
         - flake8
       python:
         - 3.6
@@ -47,6 +49,7 @@ jobs:
         - python setup.py install
         - coverage run --rcfile coverage.cfg setup.py test
         - coverage report -m
+        - coveralls
         - flake8
       python:
         - 3.7
