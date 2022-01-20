@@ -58,3 +58,12 @@ distributed.worker - INFO -         Registered to:  tcp://192.168.10.100:8786
 distributed.worker - INFO - -------------------------------------------------
 distributed.core - INFO - Starting established connection
 ```
+
+## Tests
+
+Tests are executed using tox:
+
+```
+pip install .[tests]
+tox
+```
