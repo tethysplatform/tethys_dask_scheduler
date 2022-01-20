@@ -17,6 +17,7 @@ with open(os.path.join(os.path.dirname(__file__), 'README.md')) as readme:
 os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 
 requires = [
+    'click',
     'distributed',
 ]
 
@@ -33,9 +34,6 @@ setup(
     url='http://tethysplatform.org/',
     author='Nathan Swain',
     author_email='nswain@aquaveo.com',
-    entry_points={
-        'console_scripts': ['tethys-dask-scheduler=tethys_dask_scheduler.dask_scheduler:go', ],
-    },
     test_suite='tests',
     install_requires=requires,
 )

@@ -1,5 +1,9 @@
+import logging
+import click
 from distributed.diagnostics.plugin import SchedulerPlugin
 from tornado.httpclient import AsyncHTTPClient
+
+logger = logging.getLogger("distributed.scheduler")
 
 
 class TethysSchedulerPlugin(SchedulerPlugin):
@@ -38,3 +42,14 @@ class TethysSchedulerPlugin(SchedulerPlugin):
                 # Submit update request to Tethys Asynchronously
                 http_client = AsyncHTTPClient()
                 http_client.fetch(url, method='GET')
+
+
+@click.command()
+@click.option('--tethys-host', type=str, default='http://localhost:8000',
+              help='Tethys Portal hostname that is accessible by scheduler.')
+def dask_setup(scheduler, tethys_host):
+    if not tethys_host.startswith('http'):
+        tethys_host = 'http://' + tethys_host
+    plugin = TethysSchedulerPlugin(scheduler=scheduler, tethys_endpoint=tethys_host)
+    logger.info(f'Tethys Host at: {tethys_host:>25}')
+    scheduler.add_plugin(plugin)

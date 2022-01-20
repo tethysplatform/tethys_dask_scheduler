@@ -7,8 +7,8 @@
 ********************************************************************************
 """
 import unittest
-import mock
-from tethys_dask_scheduler.tethys_scheduler_plugin import TethysSchedulerPlugin
+from unittest import mock
+from tethys_dask_scheduler.plugin import TethysSchedulerPlugin
 
 
 class SchedulerPluginTest(unittest.TestCase):
@@ -26,7 +26,7 @@ class SchedulerPluginTest(unittest.TestCase):
         self.assertEqual('http://localhost:8080', tds_plugin.tethys_endpoint)
         self.assertEqual(mock_scheduler, tds_plugin.scheduler)
 
-    @mock.patch('tethys_dask_scheduler.tethys_scheduler_plugin.AsyncHTTPClient')
+    @mock.patch('tethys_dask_scheduler.plugin.AsyncHTTPClient')
     def test_transition(self, mock_async):
         endpoint = 'http://localhost:8080'
         mock_scheduler = mock.MagicMock()
