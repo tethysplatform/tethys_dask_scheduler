@@ -50,9 +50,9 @@ class SchedulerPluginTest(unittest.TestCase):
     def test_dask_setup_tethys_host_http(self, mock_logger):
         mock_scheduler = mock.MagicMock()
         tethys_host = 'http://127.0.0.1:8000'
-        
+
         dask_setup.callback(mock_scheduler, tethys_host=tethys_host)
-        
+
         # Test
         mock_logger.info.assert_called_with('Tethys Host at:     http://127.0.0.1:8000')
         mock_scheduler.add_plugin.assert_called()
@@ -67,9 +67,9 @@ class SchedulerPluginTest(unittest.TestCase):
     def test_dask_setup_tethys_host_https(self, mock_logger):
         mock_scheduler = mock.MagicMock()
         tethys_host = 'https://127.0.0.1:8000'
-        
+
         dask_setup.callback(mock_scheduler, tethys_host=tethys_host)
-        
+
         # Test
         mock_logger.info.assert_called_with('Tethys Host at:    https://127.0.0.1:8000')
         mock_scheduler.add_plugin.assert_called()
@@ -80,14 +80,13 @@ class SchedulerPluginTest(unittest.TestCase):
         self.assertEqual(mock_scheduler, tethys_plugin.scheduler)
         self.assertEqual('https://127.0.0.1:8000', tethys_plugin.tethys_endpoint)
 
-
     @mock.patch('tethys_dask_scheduler.plugin.logger')
     def test_dask_setup_tethys_host_no_protocol(self, mock_logger):
         mock_scheduler = mock.MagicMock()
         tethys_host = '127.0.0.1:8000'
-        
+
         dask_setup.callback(mock_scheduler, tethys_host=tethys_host)
-        
+
         # Test
         mock_logger.info.assert_called_with('Tethys Host at:     http://127.0.0.1:8000')
         mock_scheduler.add_plugin.assert_called()
